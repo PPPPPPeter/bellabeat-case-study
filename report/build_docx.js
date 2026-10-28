@@ -93,7 +93,7 @@ const body = [
   ...[
     `After cleaning: **${D.n_users} users, ${fmt(D.n_days)} tracked days** from ${D.date_range[0]} to ${D.date_range[1]}. Users logged between ${D.days_per_user.min} and ${D.days_per_user.max} days (median ${D.days_per_user["50%"]}).`,
     `Users average **${fmt(D.avg_steps)} steps** a day (median ${fmt(D.median_steps)}), below the commonly cited 10,000. Only ${D.pct_days_10k}% of days reach 10,000.`,
-    `On the ${fmt(D.scatter_sed_sleep.length)} days with sleep tracked, users spend **${D.avg_sed_waking_h} waking hours sedentary**. The all-day average of ${D.avg_sed_h} h overstates this, because on the ${fmt(D.n_days - D.scatter_sed_sleep.length)} days without a sleep record the device logs sleep as sedentary (${D.avg_sed_nosleep_h} h).`,
+    `On the ${fmt(D.sleep_days)} days with sleep tracked, users spend **${D.avg_sed_waking_h} waking hours sedentary**. The all-day average of ${D.avg_sed_h} h overstates this, because on the ${fmt(D.nosleep_days)} days without a sleep record the device logs sleep as sedentary (${D.avg_sed_nosleep_h} h).`,
     `A typical day also holds ${Math.round(D.avg_light_min / 6) / 10} hours of light activity and only ${D.avg_active_min} minutes of fairly or very active exercise.`,
     "Steps follow the working day: almost nothing before 6:00, a lunchtime peak at 12:00–14:00 and the highest peak at 17:00–19:00.",
     `Steps and calories burned are moderately correlated (r = ${D.corr_steps_cal}), so more movement does pay off in energy use.`,
@@ -105,7 +105,7 @@ const body = [
 
   ...h1("Key findings", "Share"),
   ...image("1_minutes.png", "Most of the waking day is spent sitting", "Average minutes per tracked day, by intensity"),
-  note(`All tracked days. On the ${fmt(D.n_days - D.scatter_sed_sleep.length)} days without a sleep record, time asleep is counted as sedentary (${D.avg_sed_nosleep_h} h). On the ${fmt(D.scatter_sed_sleep.length)} days with sleep tracked, waking sedentary time is ${D.avg_sed_waking_h} h, still most of the waking day.`),
+  note(`All tracked days. On the ${fmt(D.nosleep_days)} days without a sleep record, time asleep is counted as sedentary (${D.avg_sed_nosleep_h} h). On the ${fmt(D.sleep_days)} days with sleep tracked, waking sedentary time is ${D.avg_sed_waking_h} h, still most of the waking day.`),
   ...image("2_hourly.png", "Activity peaks at lunch and after work", "Average steps per hour of the day, all users. Highlighted: 12:00–14:00 and 17:00–19:00"),
   ...image("3_levels.png", "Users split evenly across four activity levels", "Number of users by average daily steps"),
   note("A single “get to 10,000 steps” message fits only about a quarter of users. Half average under 7,500 steps."),

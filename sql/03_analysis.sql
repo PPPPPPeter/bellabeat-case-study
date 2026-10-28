@@ -34,10 +34,12 @@ SELECT
     round(avg(TotalSteps))::INT                               AS avg_steps,
     round(median(TotalSteps))::INT                            AS median_steps,
     round(avg(SedentaryMinutes) / 60, 1)                      AS avg_sed_h,
-    (SELECT round(avg(SedentaryMinutes) / 60, 1) FROM daily_sleep) AS avg_sed_h_sleep_days,  -- waking only: sleep is logged separately on these days
     -- On days without a sleep record, sleep time is logged as sedentary, so waking
     -- sedentary time can only be measured on the days that have a sleep record.
+    (SELECT count(*) FROM daily_sleep)::INT                        AS sleep_days,
     (SELECT round(avg(SedentaryMinutes) / 60, 1) FROM daily_sleep) AS avg_sed_waking_h,
+    (SELECT count(*) FROM daily d
+      WHERE NOT EXISTS (SELECT 1 FROM daily_sleep s WHERE s.Id = d.Id AND s.ActivityDate = d.ActivityDate))::INT AS nosleep_days,
     (SELECT round(avg(SedentaryMinutes) / 60, 1) FROM daily d
       WHERE NOT EXISTS (SELECT 1 FROM daily_sleep s WHERE s.Id = d.Id AND s.ActivityDate = d.ActivityDate)) AS avg_sed_nosleep_h,
     round(avg(LightlyActiveMinutes))::INT                     AS avg_light_min,

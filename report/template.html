@@ -270,7 +270,7 @@ document.getElementById("log").innerHTML = D.log.map(l => `<li>${l}</li>`).join(
 document.getElementById("summary").innerHTML = [
   `After cleaning: <strong>${D.n_users} users, ${fmt(D.n_days)} tracked days</strong> from ${D.date_range[0]} to ${D.date_range[1]}. Users logged between ${D.days_per_user.min} and ${D.days_per_user.max} days (median ${D.days_per_user["50%"]}).`,
   `Users average <strong>${fmt(D.avg_steps)} steps</strong> a day (median ${fmt(D.median_steps)}), below the commonly cited 10,000. Only ${D.pct_days_10k}% of days reach 10,000.`,
-  `On the ${fmt(D.scatter_sed_sleep.length)} days with sleep tracked, users spend <strong>${D.avg_sed_waking_h} waking hours sedentary</strong>. The all-day average of ${D.avg_sed_h} h overstates this, because on the ${fmt(D.n_days - D.scatter_sed_sleep.length)} days without a sleep record the device logs sleep as sedentary (${D.avg_sed_nosleep_h} h).`,
+  `On the ${fmt(D.sleep_days)} days with sleep tracked, users spend <strong>${D.avg_sed_waking_h} waking hours sedentary</strong>. The all-day average of ${D.avg_sed_h} h overstates this, because on the ${fmt(D.nosleep_days)} days without a sleep record the device logs sleep as sedentary (${D.avg_sed_nosleep_h} h).`,
   `A typical day also holds ${Math.round(D.avg_light_min / 60 * 10) / 10} hours of light activity and only ${D.avg_active_min} minutes of fairly or very active exercise.`,
   `Steps follow the working day: almost nothing before 6:00, a lunchtime peak at 12:00–14:00 and the highest peak at 17:00–19:00.`,
   `Steps and calories burned are moderately correlated (r = ${D.corr_steps_cal}), so more movement does pay off in energy use.`,
@@ -283,7 +283,7 @@ document.getElementById("summary").innerHTML = [
 const ms = D.minutes_split, msL = ["Sedentary", "Lightly active", "Fairly active", "Very active"];
 const msV = [ms.SedentaryMinutes, ms.LightlyActiveMinutes, ms.FairlyActiveMinutes, ms.VeryActiveMinutes];
 hbars("c-minutes", msL, msV, 1440, v => `${fmt(v)} min`, i => i === 0 ? "var(--plum)" : "var(--teal)", "Average minutes per day by intensity");
-document.getElementById("n-minutes").textContent = `All tracked days. On the ${fmt(D.n_days - D.scatter_sed_sleep.length)} days without a sleep record, time asleep is counted as sedentary (${D.avg_sed_nosleep_h} h). On the ${fmt(D.scatter_sed_sleep.length)} days with sleep tracked, waking sedentary time is ${D.avg_sed_waking_h} h, still most of the waking day.`;
+document.getElementById("n-minutes").textContent = `All tracked days. On the ${fmt(D.nosleep_days)} days without a sleep record, time asleep is counted as sedentary (${D.avg_sed_nosleep_h} h). On the ${fmt(D.sleep_days)} days with sleep tracked, waking sedentary time is ${D.avg_sed_waking_h} h, still most of the waking day.`;
 
 const hours = Object.keys(D.hourly).map(Number);
 bars("c-hour", hours.map(h => h % 3 === 0 ? String(h).padStart(2, "0") : ""), hours.map(h => D.hourly[h]),
