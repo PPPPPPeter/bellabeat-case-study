@@ -1,0 +1,309 @@
+<title>Bellabeat Smart Device Study</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column following the six case-study phases; charts sit inline with the finding they support. */
+:root {
+  --bg: #f5f7f6; --surface: #ffffff; --ink: #1c2a29; --muted: #5d6b69; --rule: #dbe2e0;
+  --teal: #0e7470; --teal-soft: #cfe6e3; --plum: #8b3a6c; --grid: #e6ebe9;
+  --display: "Young Serif", Georgia, serif;
+  --body: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121a19; --surface: #192322; --ink: #e4ecea; --muted: #9aaba8; --rule: #2c3a38;
+  --teal: #4fb8b1; --teal-soft: #1f3c3a; --plum: #d98bbb; --grid: #243230; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #121a19; --surface: #192322; --ink: #e4ecea; --muted: #9aaba8; --rule: #2c3a38;
+  --teal: #4fb8b1; --teal-soft: #1f3c3a; --plum: #d98bbb; --grid: #243230; color-scheme: dark }
+
+body { background: var(--bg); color: var(--ink); font: 16px/1.6 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 48px 80px; }
+main { max-width: 760px; margin: 0 auto; display: grid; gap: 56px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 2.8rem); line-height: 1.15; }
+h2 { font-size: 1.6rem; line-height: 1.25; }
+h3 { font-size: 1.15rem; }
+p { margin: 0; max-width: 65ch; }
+.eyebrow { font: 500 .75rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--teal); }
+.lede { font-size: 1.1rem; color: var(--muted); }
+header { display: grid; gap: 16px; }
+section { display: grid; gap: 18px; }
+.phase { display: flex; gap: 10px; align-items: baseline; }
+.phase .eyebrow { color: var(--muted); }
+ul, ol { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; max-width: 65ch; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.stat { background: var(--surface); padding: 16px; display: grid; gap: 4px; }
+.stat b { font: 400 1.9rem var(--display); color: var(--teal); font-variant-numeric: tabular-nums; }
+.stat span { font-size: .85rem; color: var(--muted); }
+figure { margin: 0; background: var(--surface); border: 1px solid var(--rule); padding: 20px; display: grid; gap: 10px; min-width: 0; }
+figcaption { display: grid; gap: 2px; }
+figcaption strong { font-weight: 600; }
+figcaption span, .note { font-size: .85rem; color: var(--muted); }
+.chart { width: 100%; overflow-x: auto; }
+.chart svg { display: block; width: 100%; height: auto; min-width: 320px; }
+.chart text { font: 11px var(--mono); fill: var(--muted); }
+.chart .lbl { fill: var(--ink); }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font: 500 .75rem var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+code { font: .85em var(--mono); background: var(--teal-soft); padding: 1px 5px; border-radius: 3px; }
+.recs { list-style: none; padding: 0; gap: 0; border-top: 1px solid var(--rule); }
+.recs li { display: grid; grid-template-columns: 2.2rem 1fr; gap: 12px; padding: 18px 0; border-bottom: 1px solid var(--rule); }
+.recs .n { font: 400 1.6rem var(--display); color: var(--plum); line-height: 1; }
+.recs div { display: grid; gap: 6px; min-width: 0; }
+.recs .ev { font-size: .85rem; color: var(--muted); }
+.callout { border-left: 3px solid var(--plum); padding: 4px 0 4px 16px; }
+</style>
+
+<main>
+<header>
+  <div class="eyebrow">Google Data Analytics · Case Study 2</div>
+  <h1>How Bellabeat can use smart-device habits to grow the Bellabeat app</h1>
+  <p class="lede">An analysis of 35 Fitbit users over two months in 2016: when people move, when they sit, how they sleep, and which features they actually use. Prepared for Urška Sršen, Sando Mur and the Bellabeat marketing analytics team.</p>
+</header>
+
+<div class="stats" id="stats"></div>
+
+<section>
+  <div class="phase"><span class="eyebrow">Ask</span></div>
+  <h2>Business task</h2>
+  <p>Analyse how consumers use non-Bellabeat smart fitness devices, then apply those trends to one Bellabeat product to guide marketing strategy. The three guiding questions:</p>
+  <ol>
+    <li>What are the trends in smart device usage?</li>
+    <li>How could these trends apply to Bellabeat customers?</li>
+    <li>How could these trends influence Bellabeat marketing strategy?</li>
+  </ol>
+  <p><strong>Product focus: the Bellabeat app.</strong> Every Bellabeat device (Leaf, Time, Spring) feeds the app, and the app leads into the paid membership, so app engagement is the lever that reaches all customers.</p>
+  <p class="note">Stakeholders: Urška Sršen (cofounder, CCO), Sando Mur (cofounder, executive team), Bellabeat marketing analytics team.</p>
+</section>
+
+<section>
+  <div class="phase"><span class="eyebrow">Prepare</span></div>
+  <h2>Data sources</h2>
+  <p><strong>FitBit Fitness Tracker Data</strong> (Kaggle, uploaded by Möbius, CC0 public domain). Generated by respondents to an Amazon Mechanical Turk survey between 12 March and 12 May 2016. It ships as two exports (3.12.16–4.11.16 and 4.12.16–5.12.16) of 29 CSV files in total, in long format with one row per user per day, hour, minute or second.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>File</th><th>Grain</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>dailyActivity_merged</code></td><td>user × day</td><td>steps, distance, activity minutes, calories (both periods)</td></tr>
+      <tr><td><code>hourlySteps_merged</code></td><td>user × hour</td><td>time-of-day pattern (both periods)</td></tr>
+      <tr><td><code>sleepDay_merged</code></td><td>user × night</td><td>minutes asleep, time in bed (period 2 only)</td></tr>
+      <tr><td><code>weightLogInfo_merged</code></td><td>log entry</td><td>feature adoption (weight logging)</td></tr>
+      <tr><td><code>heartrate_seconds_merged</code></td><td>user × 5 sec</td><td>feature adoption (heart rate)</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Does it ROCCC?</h3>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><td><strong>Reliable</strong></td><td>Low. 35 users is a small sample, self-selected through MTurk, with no age, gender or location data.</td></tr>
+      <tr><td><strong>Original</strong></td><td>Low. Third-party upload, not collected by Bellabeat or Fitbit directly.</td></tr>
+      <tr><td><strong>Comprehensive</strong></td><td>Medium. Rich activity and sleep metrics, but sleep covers only 24 users and weight only 13.</td></tr>
+      <tr><td><strong>Current</strong></td><td>Low. Collected in 2016.</td></tr>
+      <tr><td><strong>Cited</strong></td><td>Medium. Source and licence are documented on Kaggle and Zenodo.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="callout">The biggest gap for Bellabeat is that the users are not known to be women, Bellabeat's target market. The findings below are directional and should be confirmed with Bellabeat's own app data before large spend decisions.</p>
+  <p class="note">Privacy: users are identified only by a 10-digit Id, with no personal information. The data was downloaded with <code>kagglehub</code> and the raw CSVs were kept unchanged.</p>
+</section>
+
+<section>
+  <div class="phase"><span class="eyebrow">Process</span></div>
+  <h2>Cleaning and transformation</h2>
+  <p>Tool: SQL, run in DuckDB. DuckDB queries the CSVs directly and handles the multi-million-row heart rate file easily, which a spreadsheet cannot. Keeping every step in SQL scripts (<code>01_load.sql</code>, <code>02_clean.sql</code>, <code>03_analysis.sql</code>) makes the work repeatable and easy to review.</p>
+  <ol id="log"></ol>
+  <ul>
+    <li>Parsed all date and datetime text fields (for example <code>4/12/2016 1:00:00 AM</code>) into proper datetime types with <code>strptime</code>.</li>
+    <li>Resolved duplicate user-days and user-hours with <code>row_number() OVER (PARTITION BY Id, date)</code>, keeping the most complete row.</li>
+    <li>Added derived columns: wear time (sum of the four activity-minute columns), weekday, combined very + fairly active minutes, and awake-in-bed minutes (time in bed − minutes asleep).</li>
+    <li>Classified each user by average daily steps: under 5,000 sedentary, 5,000–7,499 lightly active, 7,500–9,999 fairly active, 10,000+ very active.</li>
+    <li>Ran a SQL <code>checks</code> view before analysis: no duplicate user-days or user-nights, no day over 1,440 minutes, no one asleep longer than in bed, no null steps or dates. All five return 0.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="phase"><span class="eyebrow">Analyze</span></div>
+  <h2>Summary of the analysis</h2>
+  <ul id="summary"></ul>
+</section>
+
+<section>
+  <div class="phase"><span class="eyebrow">Share</span></div>
+  <h2>Key findings</h2>
+
+  <figure>
+    <figcaption><strong>Most of the waking day is spent sitting</strong><span>Average minutes per tracked day, by intensity</span></figcaption>
+    <div class="chart" id="c-minutes"></div>
+    <p class="note" id="n-minutes"></p>
+  </figure>
+
+  <figure>
+    <figcaption><strong>Activity peaks at lunch and after work</strong><span>Average steps per hour of the day, all users. Highlighted: 12:00–14:00 and 17:00–19:00</span></figcaption>
+    <div class="chart" id="c-hour"></div>
+  </figure>
+
+  <figure>
+    <figcaption><strong>Users split evenly across four activity levels</strong><span>Number of users by average daily steps</span></figcaption>
+    <div class="chart" id="c-levels"></div>
+    <p class="note">A single “get to 10,000 steps” message fits only about a quarter of users. Half average under 7,500 steps.</p>
+  </figure>
+
+  <figure>
+    <figcaption><strong>More sitting goes with less sleep</strong><span>Each dot is one user-day with both activity and sleep recorded</span></figcaption>
+    <div class="chart" id="c-sleep"></div>
+    <p class="note" id="n-sleep"></p>
+  </figure>
+
+  <figure>
+    <figcaption><strong>Sunday is the least active day</strong><span>Average steps by weekday</span></figcaption>
+    <div class="chart" id="c-weekday"></div>
+  </figure>
+
+  <figure>
+    <figcaption><strong>Features that need extra effort go unused</strong><span>Share of the 35 users who produced any data for each feature</span></figcaption>
+    <div class="chart" id="c-adopt"></div>
+    <p class="note" id="n-adopt"></p>
+  </figure>
+</section>
+
+<section>
+  <div class="phase"><span class="eyebrow">Act</span></div>
+  <h2>Top three recommendations for the Bellabeat app</h2>
+  <ol class="recs">
+    <li><span class="n">1</span><div>
+      <h3>Market the app as a coach against sitting, not a step counter</h3>
+      <p>Lead campaigns with “move a little more, more often”. In the app, send gentle nudges after long sedentary spells, timed around the noon and 17:00–19:00 peaks when users already move, and set personal goals from each user's own baseline instead of a fixed 10,000 steps.</p>
+      <p class="ev" id="ev1"></p></div></li>
+    <li><span class="n">2</span><div>
+      <h3>Make sleep the headline feature, linked to daytime activity</h3>
+      <p>Position Bellabeat as the brand that connects how you move with how you sleep. Use a wind-down reminder at bedtime, a morning sleep score, and app content that shows each user her own sitting-to-sleep link. Promote the Leaf as jewellery comfortable enough to wear overnight, since watches are often taken off at night.</p>
+      <p class="ev" id="ev2"></p></div></li>
+    <li><span class="n">3</span><div>
+      <h3>Automate tracking and use it to sell the membership</h3>
+      <p>Low-effort features get used; manual ones do not. Auto-sync wherever possible (for example, pair the Spring bottle for hydration and connected scales for weight) and replace manual logs with one-tap check-ins. Use weekly summaries and Sunday activity challenges in the app as a free taste of personalised membership coaching.</p>
+      <p class="ev" id="ev3"></p></div></li>
+  </ol>
+  <h3>Next steps and additional data</h3>
+  <ul>
+    <li>Repeat the analysis on Bellabeat's own app data, which covers women and includes stress, cycle and hydration tracking.</li>
+    <li>Add a larger, recent public dataset with demographics (for example, national health surveys on physical activity and sleep) to test whether these patterns hold for women.</li>
+    <li>A/B test the sedentary nudges and the sleep messaging and measure retention and membership conversion.</li>
+  </ul>
+</section>
+</main>
+
+<script>
+const D = /*DATA*/null;
+const fmt = n => n.toLocaleString("en-US");
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text != null) e.textContent = text;
+  parent && parent.appendChild(e);
+  return e;
+}
+function svg(id, w, h) { return el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img" }, document.getElementById(id)); }
+function niceMax(v) { const p = 10 ** Math.floor(Math.log10(v)); return Math.ceil(v / p) * p; }
+
+// vertical bars with y grid
+function bars(id, labels, values, hi, aria) {
+  const W = 680, H = 260, L = 48, R = 8, T = 12, B = 28, s = svg(id, W, H);
+  s.setAttribute("aria-label", aria);
+  const max = niceMax(Math.max(...values)), iw = W - L - R, ih = H - T - B, bw = iw / values.length;
+  for (let i = 0; i <= 4; i++) {
+    const v = max * i / 4, y = T + ih - ih * v / max;
+    el("line", { x1: L, x2: W - R, y1: y, y2: y, stroke: "var(--grid)" }, s);
+    el("text", { x: L - 6, y: y + 4, "text-anchor": "end" }, s, fmt(v));
+  }
+  values.forEach((v, i) => {
+    const h = ih * v / max, x = L + i * bw;
+    const r = el("rect", { x: x + bw * .15, y: T + ih - h, width: bw * .7, height: h, fill: hi(i) ? "var(--teal)" : "var(--teal-soft)" }, s);
+    el("title", {}, r, `${labels[i]}: ${fmt(v)}`);
+    el("text", { x: x + bw / 2, y: H - 10, "text-anchor": "middle" }, s, labels[i]);
+  });
+}
+
+// horizontal bars with value labels
+function hbars(id, labels, values, max, unit, colors, aria) {
+  const W = 680, row = 34, L = 190, R = 70, H = labels.length * row + 8, s = svg(id, W, H);
+  s.setAttribute("aria-label", aria);
+  labels.forEach((lab, i) => {
+    const y = 4 + i * row, w = (W - L - R) * values[i] / max;
+    el("text", { x: L - 10, y: y + 19, "text-anchor": "end", class: "lbl" }, s, lab);
+    el("rect", { x: L, y: y + 4, width: W - L - R, height: 22, fill: "var(--grid)" }, s);
+    el("rect", { x: L, y: y + 4, width: w, height: 22, fill: colors(i) }, s);
+    el("text", { x: L + w + 8, y: y + 19, class: "lbl" }, s, unit(values[i]));
+  });
+}
+
+function scatter(id, pts, aria) {
+  const W = 680, H = 320, L = 52, R = 12, T = 12, B = 40, s = svg(id, W, H);
+  s.setAttribute("aria-label", aria);
+  const xmax = 1440, ymax = 900, iw = W - L - R, ih = H - T - B;
+  const X = v => L + iw * v / xmax, Y = v => T + ih - ih * v / ymax;
+  for (let v = 0; v <= ymax; v += 180) { el("line", { x1: L, x2: W - R, y1: Y(v), y2: Y(v), stroke: "var(--grid)" }, s); el("text", { x: L - 6, y: Y(v) + 4, "text-anchor": "end" }, s, v / 60 + "h"); }
+  for (let v = 0; v <= xmax; v += 240) el("text", { x: X(v), y: H - 22, "text-anchor": "middle" }, s, v / 60 + "h");
+  el("text", { x: L + iw / 2, y: H - 4, "text-anchor": "middle" }, s, "Sedentary time per day");
+  el("text", { x: 12, y: T + ih / 2, transform: `rotate(-90 12 ${T + ih / 2})`, "text-anchor": "middle" }, s, "Asleep");
+  pts.forEach(([x, y]) => el("circle", { cx: X(x), cy: Y(Math.min(y, ymax)), r: 3, fill: "var(--plum)", "fill-opacity": .45 }, s));
+  // least-squares trend line
+  const n = pts.length, mx = pts.reduce((a, p) => a + p[0], 0) / n, my = pts.reduce((a, p) => a + p[1], 0) / n;
+  const b = pts.reduce((a, p) => a + (p[0] - mx) * (p[1] - my), 0) / pts.reduce((a, p) => a + (p[0] - mx) ** 2, 0);
+  const x0 = Math.min(...pts.map(p => p[0])), x1 = Math.max(...pts.map(p => p[0]));
+  el("line", { x1: X(x0), y1: Y(my + b * (x0 - mx)), x2: X(x1), y2: Y(my + b * (x1 - mx)), stroke: "var(--ink)", "stroke-width": 2 }, s);
+}
+
+// --- fill page ---
+const pct = (a, b) => Math.round(a / b * 100);
+document.getElementById("stats").innerHTML = [
+  [fmt(D.avg_steps), "average steps per day"],
+  ["~" + D.avg_sed_waking_h + " h", "of waking time sedentary"],
+  [D.pct_days_10k + "%", "of days reach 10,000 steps"],
+  [D.pct_users_under7 + "%", "of sleep trackers average under 7 h"],
+].map(([b, t]) => `<div class="stat"><b>${b}</b><span>${t}</span></div>`).join("");
+
+document.getElementById("log").innerHTML = D.log.map(l => `<li>${l}</li>`).join("");
+
+document.getElementById("summary").innerHTML = [
+  `After cleaning: <strong>${D.n_users} users, ${fmt(D.n_days)} tracked days</strong> from ${D.date_range[0]} to ${D.date_range[1]}. Users logged between ${D.days_per_user.min} and ${D.days_per_user.max} days (median ${D.days_per_user["50%"]}).`,
+  `Users average <strong>${fmt(D.avg_steps)} steps</strong> a day (median ${fmt(D.median_steps)}), below the commonly cited 10,000. Only ${D.pct_days_10k}% of days reach 10,000.`,
+  `On the ${fmt(D.scatter_sed_sleep.length)} days with sleep tracked, users spend <strong>${D.avg_sed_waking_h} waking hours sedentary</strong>. The all-day average of ${D.avg_sed_h} h overstates this, because on the ${fmt(D.n_days - D.scatter_sed_sleep.length)} days without a sleep record the device logs sleep as sedentary (${D.avg_sed_nosleep_h} h).`,
+  `A typical day also holds ${Math.round(D.avg_light_min / 60 * 10) / 10} hours of light activity and only ${D.avg_active_min} minutes of fairly or very active exercise.`,
+  `Steps follow the working day: almost nothing before 6:00, a lunchtime peak at 12:00–14:00 and the highest peak at 17:00–19:00.`,
+  `Steps and calories burned are moderately correlated (r = ${D.corr_steps_cal}), so more movement does pay off in energy use.`,
+  `${D.sleep_users} of ${D.n_users} users tracked sleep, and only ${D.sleep_users_regular} did so on 15 or more nights. Average sleep is ${D.avg_sleep_h} hours, ${D.pct_nights_under7}% of nights fall short of 7 hours, and users lie awake in bed ${D.avg_awake_in_bed} minutes on average.`,
+  `Sedentary minutes and minutes asleep are negatively correlated (r = ${D.corr_sed_sleep}).`,
+  `The device was worn for 23+ hours on only <strong>${D.pct_days_full_wear}%</strong> of days (average wear ${D.avg_wear_h} h), so many users take it off, most likely at night.`,
+  `Weight logging was used by ${D.weight_users} users and ${D.weight_manual_pct}% of entries were typed in by hand. Heart rate data exists for ${D.hr_users} users.`,
+].map(s => `<li>${s}</li>`).join("");
+
+const ms = D.minutes_split, msL = ["Sedentary", "Lightly active", "Fairly active", "Very active"];
+const msV = [ms.SedentaryMinutes, ms.LightlyActiveMinutes, ms.FairlyActiveMinutes, ms.VeryActiveMinutes];
+hbars("c-minutes", msL, msV, 1440, v => `${fmt(v)} min`, i => i === 0 ? "var(--plum)" : "var(--teal)", "Average minutes per day by intensity");
+document.getElementById("n-minutes").textContent = `All tracked days. On the ${fmt(D.n_days - D.scatter_sed_sleep.length)} days without a sleep record, time asleep is counted as sedentary (${D.avg_sed_nosleep_h} h). On the ${fmt(D.scatter_sed_sleep.length)} days with sleep tracked, waking sedentary time is ${D.avg_sed_waking_h} h, still most of the waking day.`;
+
+const hours = Object.keys(D.hourly).map(Number);
+bars("c-hour", hours.map(h => h % 3 === 0 ? String(h).padStart(2, "0") : ""), hours.map(h => D.hourly[h]),
+  i => (i >= 12 && i <= 14) || (i >= 17 && i <= 19), "Average steps by hour of day");
+
+const lv = Object.keys(D.levels);
+hbars("c-levels", lv.map(l => l.replace(/ \(.*/, "")), lv.map(l => D.levels[l]), Math.max(...Object.values(D.levels)) + 2,
+  v => `${v} users`, () => "var(--teal)", "Users by activity level");
+
+scatter("c-sleep", D.scatter_sed_sleep, "Sedentary minutes versus minutes asleep");
+document.getElementById("n-sleep").textContent = `r = ${D.corr_sed_sleep} across ${fmt(D.scatter_sed_sleep.length)} user-days. Part of this link is built in, because a day has a fixed 1,440 minutes, so it shows association, not cause. It is still a strong story for pairing activity and sleep features.`;
+
+const wd = Object.keys(D.weekday);
+bars("c-weekday", wd.map(d => d.slice(0, 3)), wd.map(d => D.weekday[d].steps), i => wd[i] === "Sunday", "Average steps by weekday");
+
+const ad = [["Steps & activity", D.n_users], ["Sleep (any night)", D.sleep_users], ["Sleep (15+ nights)", D.sleep_users_regular], ["Heart rate", D.hr_users], ["Weight log", D.weight_users]];
+hbars("c-adopt", ad.map(a => a[0]), ad.map(a => pct(a[1], D.n_users)), 100, v => v + "%", i => i === 0 ? "var(--teal)" : "var(--plum)", "Feature adoption by share of users");
+document.getElementById("n-adopt").textContent = `Steps record automatically, so every user has them. Sleep needs the device worn overnight, and weight needs a smart scale or manual entry (${D.weight_manual_pct}% of weight entries were manual).`;
+
+document.getElementById("ev1").textContent = `Evidence: ~${D.avg_sed_waking_h} waking hours sedentary, ${D.avg_active_min} active minutes, ${D.pct_days_10k}% of days at 10,000 steps, users spread evenly across four activity levels.`;
+document.getElementById("ev2").textContent = `Evidence: ${D.pct_users_under7}% of sleep trackers average under 7 h, ${D.avg_awake_in_bed} min awake in bed, r = ${D.corr_sed_sleep} between sitting and sleep, device worn all day on only ${D.pct_days_full_wear}% of days.`;
+document.getElementById("ev3").textContent = `Evidence: automatic step data from ${pct(D.n_users, D.n_users)}% of users versus ${pct(D.weight_users, D.n_users)}% for weight logging; Sunday averages ${fmt(D.weekday.Sunday.steps)} steps, the lowest of the week.`;
+</script>

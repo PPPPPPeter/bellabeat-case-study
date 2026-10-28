@@ -1,0 +1,4 @@
+output/*.duckdb
+output/*.wal
+report/node_modules/
+__pycache__/
