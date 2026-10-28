@@ -2,7 +2,7 @@
 
 Capstone project for the Google Data Analytics Professional Certificate. I analysed public Fitbit usage data to find smart-device habits, and turned them into marketing recommendations for the **Bellabeat app**. All cleaning and analysis is written in **SQL (DuckDB)**.
 
-📊 **[Read the full report online](https://pppppppeter.github.io/bellabeat-case-study/bellabeat_case_study.html)** · Word version: [Bellabeat_Case_Study.docx](Bellabeat_Case_Study.docx)
+📊 **[Read the full report online](https://ppppppeter.github.io/bellabeat-case-study/bellabeat_case_study.html)** · Word version: [Bellabeat_Case_Study.docx](Bellabeat_Case_Study.docx)
 
 ## Key findings
 
