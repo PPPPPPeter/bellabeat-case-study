@@ -1,0 +1,17 @@
+version: 2
+models:
+  - name: rpt_overview
+    description: "Headline figures for the report: users, days, steps, sedentary hours (all days vs sleep-tracked days), wear time."
+    columns:
+      - name: avg_sed_waking_h
+        description: "Average sedentary hours on sleep-tracked days (~11.9 h): the figure to quote, not avg_sed_h."
+  - name: rpt_weekday
+    description: "Average steps and sedentary minutes by weekday."
+  - name: rpt_hourly
+    description: "Average steps by hour of day (peaks 12:00–14:00 and 17:00–19:00)."
+  - name: rpt_activity_levels
+    description: "Users per activity level."
+  - name: rpt_sleep
+    description: "Sleep summary: average sleep, share under 7 h, sedentary–sleep correlation."
+  - name: rpt_feature_adoption
+    description: "How many users logged weight or heart rate."

@@ -52,6 +52,8 @@ sql/03_analysis.sql    every statistic in the report, one "-- name:" block per q
 run_sql.py             runs the SQL in DuckDB, fails if any check is non-zero, writes output/
 output/                summary.json and cleaned tables (CSV)
 report/                charts (matplotlib), Word report (docx-js), HTML report
+dbt_bellabeat/         the same pipeline as a dbt project (models, tests, docs)
+dbt-docs/              the generated dbt docs site (GitHub Pages)
 ```
 
 ## Reproduce
@@ -66,6 +68,33 @@ node report/build_docx.js output/summary.json report/charts Bellabeat_Case_Study
 python report/build_html.py output/summary.json bellabeat_case_study.html
 ```
 
+## dbt version
+
+🔗 **[Browse the dbt docs and lineage graph](https://ppppppeter.github.io/bellabeat-case-study/dbt-docs/)**
+
+`dbt_bellabeat/` rebuilds the same cleaning and headline figures as a **dbt** project on DuckDB, layered the standard way:
+
+```
+staging/       stg_fitbit__*          one view per raw CSV (both export periods)
+intermediate/  int_daily_parsed, int_daily_dedup   parse dates, drop duplicates, resolve the 2016-04-12 overlap
+marts/         fct_daily_activity, fct_hourly_steps, fct_sleep, fct_daily_sleep, fct_weight_logs, dim_users
+marts/report/  rpt_overview, rpt_weekday, rpt_hourly, rpt_activity_levels, rpt_sleep, rpt_feature_adoption
+tests/         the integrity checks from 02_clean.sql, as dbt tests
+```
+
+`dbt build` creates 19 models and runs 13 data tests (unique / not-null keys, accepted values, one row per user-day and user-night, no day over 1,440 minutes, never asleep longer than in bed). Every table and report figure was compared row by row with the `run_sql.py` output: identical (1,239 user-days, 46,008 hourly rows, 410 nights; 11.9 waking sedentary hours, 8,169 average steps).
+
+```bash
+pip install dbt-duckdb "duckdb==1.5.5"
+cd dbt_bellabeat
+export FITBIT_DATA=<data path>          # PowerShell: $env:FITBIT_DATA = "<data path>"
+dbt build --profiles-dir .
+dbt docs generate --profiles-dir . --static   # target/static_index.html: model docs + lineage graph
+cp target/static_index.html ../dbt-docs/index.html   # the published docs page (set FITBIT_DATA="<FITBIT_DATA>" first so no local path is embedded)
+```
+
 ## 中文简介
 
 Google 数据分析证书的 Capstone 项目。数据是 35 位 Fitbit 用户在 2016 年的使用记录，清洗和分析全部用 SQL（DuckDB）完成，最后为 Bellabeat app 提出三条营销建议：减少久坐提醒、以睡眠为主打功能、自动记录数据并借此推广会员。
+
+另有 `dbt_bellabeat/`：把同一套清洗和统计改写成 dbt 项目（staging → intermediate → marts 分层，13 项数据测试，自动生成文档和血缘图），结果与原 SQL 流程逐行一致。

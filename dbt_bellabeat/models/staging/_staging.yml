@@ -1,0 +1,15 @@
+version: 2
+models:
+  - name: stg_fitbit__daily_activity
+    description: "Raw dailyActivity_merged.csv from both export periods (3.12.16–4.11.16 and 4.12.16–5.12.16); `filename` shows which export a row came from."
+  - name: stg_fitbit__hourly_steps
+    description: "Raw hourlySteps_merged.csv from both export periods."
+  - name: stg_fitbit__sleep_day
+    description: "Raw sleepDay_merged.csv; only the second export has it."
+  - name: stg_fitbit__weight_log
+    description: "Raw weightLogInfo_merged.csv from both export periods."
+  - name: stg_fitbit__heartrate_users
+    description: "Users with any heart-rate record (the 5-second data itself is not kept)."
+    columns:
+      - name: Id
+        data_tests: [unique, not_null]

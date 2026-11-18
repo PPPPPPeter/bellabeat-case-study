@@ -1,0 +1,7 @@
+bellabeat:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: bellabeat_dbt.duckdb
+      threads: 4

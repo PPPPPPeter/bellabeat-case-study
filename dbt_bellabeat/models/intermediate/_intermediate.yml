@@ -1,0 +1,6 @@
+version: 2
+models:
+  - name: int_daily_parsed
+    description: "Daily activity with the date parsed and exact duplicates removed; adds WearMin = all logged minutes."
+  - name: int_daily_dedup
+    description: "One row per user and date; where the two exports overlap (2016-04-12) the row with the most minutes is kept."

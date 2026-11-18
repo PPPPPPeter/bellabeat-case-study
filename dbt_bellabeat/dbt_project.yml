@@ -1,0 +1,22 @@
+name: bellabeat
+version: "1.0.0"
+profile: bellabeat
+config-version: 2
+
+model-paths: ["models"]
+test-paths: ["tests"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+vars:
+  # folder that holds the two Fitbit export folders (kagglehub arashnic/fitbit); set FITBIT_DATA before running
+  data_root: "{{ env_var('FITBIT_DATA') }}"
+
+models:
+  bellabeat:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table
