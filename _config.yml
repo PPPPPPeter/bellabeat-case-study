@@ -1,0 +1,3 @@
+# GitHub Pages (Jekyll): dbt source files contain {% docs %} blocks that Jekyll would try to render
+exclude:
+  - dbt_bellabeat
